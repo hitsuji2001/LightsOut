@@ -9,7 +9,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import mapgen.Map;
-import entity.Entity;
+import entity.Player;
 import game.KeyHandler;
 
 public class Game extends JPanel implements Runnable
@@ -23,7 +23,9 @@ public class Game extends JPanel implements Runnable
 
     // Game elements
     private Map map = new Map();
-    private Entity player = new Entity(100, 100, 4);
+    private Player player = new Player(this.keyHandler);
+
+    public static double deltaTime;
 
     public Game()
     {
@@ -39,22 +41,7 @@ public class Game extends JPanel implements Runnable
 
     public void update()
     {
-        if(this.keyHandler.isUpPressed)
-        {
-            this.player.setY(this.player.getY() - this.player.getSpeed());
-        }
-        else if(this.keyHandler.isDownPressed)
-        {
-            this.player.setY(this.player.getY() + this.player.getSpeed());
-        }
-        else if(this.keyHandler.isLeftPressed)
-        {
-            this.player.setX(this.player.getX() - this.player.getSpeed());
-         }
-        else if(this.keyHandler.isRightPressed)
-        {
-            this.player.setX(this.player.getX() + this.player.getSpeed());
-        }
+        this.player.update();
     }
 
     public void draw()
@@ -77,7 +64,6 @@ public class Game extends JPanel implements Runnable
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
-        g.setColor(Color.CYAN);
 
         Graphics2D g2D = (Graphics2D) g;
 
@@ -92,7 +78,7 @@ public class Game extends JPanel implements Runnable
     {
         // Game Loop
         double drawInterval = 1e9 / FPS;
-        double delta = 0;
+        deltaTime = 0;
         long lastTime = System.nanoTime();
         long currentTime = 0;
 
@@ -103,17 +89,17 @@ public class Game extends JPanel implements Runnable
         {
             currentTime = System.nanoTime();
 
-            delta += (currentTime - lastTime) / drawInterval;
+            deltaTime += (currentTime - lastTime) / drawInterval;
             timer += currentTime - lastTime;
 
             lastTime = currentTime;
             
-            if(delta >= 1)
+            if(deltaTime >= 1)
             {
                 this.update();
                 this.draw();
 
-                delta--;
+                deltaTime--;
 
                 drawCount++;
             }
@@ -121,7 +107,7 @@ public class Game extends JPanel implements Runnable
             // Debug: Draw FPS
             if(timer >= (long)1e9)
             {
-                System.out.println("FPS: " + drawCount);
+                //System.out.println("FPS: " + drawCount);
                 drawCount = 0;
                 timer = 0;
             }

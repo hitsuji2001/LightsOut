@@ -1,7 +1,7 @@
 #!/bin/bash
 
 AppRunning=1
-SRC_FILE="src/game/*.java src/mapgen/*.java src/entity/*.java src/window/*.java src/main/*.java"
+SRC_FILE="src/assetloader/*.java src/game/*.java src/mapgen/*.java src/entity/*.java src/window/*.java src/main/*.java"
 CLS_FILE="bin/"
 
 while [ $AppRunning == 1 ]; do
