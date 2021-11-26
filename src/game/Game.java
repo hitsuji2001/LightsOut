@@ -22,7 +22,7 @@ public class Game extends JPanel implements Runnable
     private static final int FPS = 60;
 
     // Game elements
-    private Map map = new Map();
+    private Map map = new Map(this);
     private Player player = new Player(this.keyHandler);
 
     public static double deltaTime;
@@ -68,6 +68,7 @@ public class Game extends JPanel implements Runnable
         Graphics2D g2D = (Graphics2D) g;
 
         // Draw sprites and objects
+        this.map.draw(g2D);
         this.player.draw(g2D);
 
         g.dispose();

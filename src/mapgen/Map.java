@@ -1,32 +1,70 @@
 package mapgen;
 
+import assetloader.MapLoader;
 import window.GameWindow;
 
 import javax.swing.JPanel;
 
-import java.awt.Graphics;
-import java.awt.Dimension;
-import java.awt.Color;
+import java.awt.Graphics2D;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class Map 
 {
-    private static final int GRID_SIZE = 40;
-    private static final int GAME_UNITS = (GameWindow.WINDOW_WIDTH * GameWindow.WINDOW_HEIGHT) / (GRID_SIZE * GRID_SIZE);
+    private JPanel gamePanel;
+    private MapLoader normalFloorTiles = new MapLoader();
+    private MapLoader wallTiles = new MapLoader();
+    
+    public static final int TILE_SIZE = 16;
+    public static final int TILE_SCALER = 3;
+    public static final int FINAL_TILE_SIZE = TILE_SIZE * TILE_SCALER;
 
-    public Map()
+    public Map(JPanel gamePanel)
     {
+        this.gamePanel = gamePanel;
+
+        try
+        {
+            this.loadFile();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
-    public void drawDebugGuildlines(Graphics g)
+    public void draw(Graphics2D g)
     {
-        g.setColor(Color.PINK);
-        for(int i = 0; i < GameWindow.WINDOW_WIDTH / GRID_SIZE; i++)
+        for(int i = 0; i < GameWindow.WINDOW_WIDTH; i += GameWindow.WINDOW_WIDTH / FINAL_TILE_SIZE)
         {
-            for(int j = 0; j < GameWindow.WINDOW_HEIGHT / GRID_SIZE; j++)
+            for(int j = 0; j < GameWindow.WINDOW_HEIGHT; j += GameWindow.WINDOW_HEIGHT / FINAL_TILE_SIZE)
             {
-                g.drawLine(i * GRID_SIZE, 0, i * GRID_SIZE, GameWindow.WINDOW_HEIGHT);
-                g.drawLine(0, i * GRID_SIZE, GameWindow.WINDOW_WIDTH, i * GRID_SIZE);
+                g.drawImage(this.normalFloorTiles.getTileMap().get(0), i, j, FINAL_TILE_SIZE, FINAL_TILE_SIZE, null);
             }
         }
+    }
+
+    private void loadFile() throws IOException
+    {
+        this.loadFloorTiles();
+        this.loadWallTiles();
+
+        this.normalFloorTiles.loadImageFromFilePath();
+        this.wallTiles.loadImageFromFilePath();
+    }
+
+    private void loadFloorTiles() throws FileNotFoundException
+    {
+        String floorFolder = "assets/map/floor";
+
+        this.normalFloorTiles.loadFilesFromFolder(floorFolder);
+    }
+
+    private void loadWallTiles() throws FileNotFoundException
+    {
+        String wallFolder = "assets/map/wall";
+
+        this.wallTiles.loadFilesFromFolder(wallFolder);
     }
 }
