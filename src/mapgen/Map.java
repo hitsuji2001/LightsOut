@@ -17,7 +17,7 @@ public class Map
     private MapLoader wallTiles = new MapLoader();
     
     public static final int TILE_SIZE = 16;
-    public static final int TILE_SCALER = 3;
+    public static final int TILE_SCALER = 2;
     public static final int FINAL_TILE_SIZE = TILE_SIZE * TILE_SCALER;
 
     public Map(JPanel gamePanel)
@@ -36,11 +36,13 @@ public class Map
 
     public void draw(Graphics2D g)
     {
-        for(int i = 0; i < GameWindow.WINDOW_WIDTH; i += GameWindow.WINDOW_WIDTH / FINAL_TILE_SIZE)
+        int temp = 0;
+        for(int i = 0; i < GameWindow.WINDOW_WIDTH; i += FINAL_TILE_SIZE)
         {
-            for(int j = 0; j < GameWindow.WINDOW_HEIGHT; j += GameWindow.WINDOW_HEIGHT / FINAL_TILE_SIZE)
+            for(int j = 0; j < GameWindow.WINDOW_HEIGHT; j += FINAL_TILE_SIZE)
             {
-                g.drawImage(this.normalFloorTiles.getTileMap().get(0), i, j, FINAL_TILE_SIZE, FINAL_TILE_SIZE, null);
+                temp++;
+                g.drawImage(this.normalFloorTiles.getTileMap().get(temp % 8), i, j, FINAL_TILE_SIZE, FINAL_TILE_SIZE, null);
             }
         }
     }

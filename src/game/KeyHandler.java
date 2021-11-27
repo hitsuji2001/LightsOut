@@ -10,6 +10,11 @@ public class KeyHandler implements KeyListener
     public boolean isLeftPressed;
     public boolean isRightPressed;
 
+    public boolean isKeyPressed()
+    {
+        return this.isUpPressed | this.isDownPressed | this.isLeftPressed | this.isRightPressed;
+    }
+
     @Override
     public void keyTyped(KeyEvent e)
     {

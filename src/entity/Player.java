@@ -35,7 +35,7 @@ public class Player extends Entity
         // Basic Attributes
         this.x = 100;
         this.y = 100;
-        this.speed = 4;
+        this.speed = 3;
 
         // Load Sprite
         this.setUpSprite();
@@ -60,7 +60,8 @@ public class Player extends Entity
     public void update()
     {
         this.move();
-        this.updateSprite();
+        //if(this.keyHandler.isKeyPressed())
+            this.updateSprite();
     }
 
     public void move()
