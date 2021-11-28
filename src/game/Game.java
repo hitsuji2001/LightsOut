@@ -10,20 +10,23 @@ import java.awt.Graphics2D;
 
 import mapgen.Map;
 import entity.Player;
-import game.KeyHandler;
+import entity.enemy.BigDemon;
 
 public class Game extends JPanel implements Runnable
 {
     private Thread gameThread;
 
     private boolean isRunning;
+
+    //Player Key Handler
     private KeyHandler keyHandler = new KeyHandler();
 
     private static final int FPS = 60;
 
     // Game elements
-    private Map map = new Map(this);
+    private Map map = new Map();
     private Player player = new Player(this.keyHandler);
+    private BigDemon bigDemon = new BigDemon();
 
     public static double deltaTime;
 
@@ -39,11 +42,14 @@ public class Game extends JPanel implements Runnable
         this.setFocusable(true);
     }
 
+    // Update game elements: maps, player, entities, etc.
     public void update()
     {
         this.player.update();
+        this.bigDemon.update();
     }
 
+    // Redraw everything
     public void draw()
     {
         repaint();
@@ -60,6 +66,7 @@ public class Game extends JPanel implements Runnable
         this.isRunning = isRunning;
     }
 
+    //Draw everything in here
     @Override
     public void paintComponent(Graphics g)
     {
@@ -70,6 +77,7 @@ public class Game extends JPanel implements Runnable
         // Draw sprites and objects
         this.map.draw(g2D);
         this.player.draw(g2D);
+        this.bigDemon.draw(g2D);
 
         g.dispose();
     }
@@ -77,41 +85,46 @@ public class Game extends JPanel implements Runnable
     @Override
     public void run()
     {
-        // Game Loop
-        double drawInterval = 1e9 / FPS;
+        double drawInterval = 1e9 / FPS; // 1s / FPS = means draw about 'FPS' times in 1 second
         deltaTime = 0;
-        long lastTime = System.nanoTime();
+        long lastTime = System.nanoTime(); // Get system time in nanoseconds
         long currentTime = 0;
 
-        long timer = 0;
-        int drawCount = 0;
+        // debug information
+        //long timer = 0;
+        //int drawCount = 0;
 
+        // Game Loop
         while(this.gameThread != null && this.isRunning)
         {
             currentTime = System.nanoTime();
 
             deltaTime += (currentTime - lastTime) / drawInterval;
-            timer += currentTime - lastTime;
+            //timer += currentTime - lastTime;
 
             lastTime = currentTime;
             
-            if(deltaTime >= 1)
+            // if deltaTime hit 1 which means we finish the hold interval
+            // so we reset deltaTime and then do everything again
+            if(deltaTime >= 1) 
             {
                 this.update();
                 this.draw();
 
+                // reset deltaTime back to 0
                 deltaTime--;
 
-                drawCount++;
+                // debug information
+                //drawCount++;
             }
 
             // Debug: Draw FPS
-            if(timer >= (long)1e9)
-            {
-                //System.out.println("FPS: " + drawCount);
-                drawCount = 0;
-                timer = 0;
-            }
+            //if(timer >= (long)1e9)
+            //{
+            //    System.out.println("FPS: " + drawCount);
+            //    drawCount = 0;
+            //    timer = 0;
+            //}
         }
     }
 }

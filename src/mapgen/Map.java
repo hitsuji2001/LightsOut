@@ -1,9 +1,7 @@
 package mapgen;
 
-import assetloader.MapLoader;
+import assetloader.map.MapLoader;
 import window.GameWindow;
-
-import javax.swing.JPanel;
 
 import java.awt.Graphics2D;
 
@@ -12,7 +10,6 @@ import java.io.IOException;
 
 public class Map 
 {
-    private JPanel gamePanel;
     private MapLoader normalFloorTiles = new MapLoader();
     private MapLoader wallTiles = new MapLoader();
     
@@ -20,10 +17,8 @@ public class Map
     public static final int TILE_SCALER = 2;
     public static final int FINAL_TILE_SIZE = TILE_SIZE * TILE_SCALER;
 
-    public Map(JPanel gamePanel)
+    public Map()
     {
-        this.gamePanel = gamePanel;
-
         try
         {
             this.loadFile();
@@ -34,9 +29,11 @@ public class Map
         }
     }
 
+    // Draw the map on the screen
     public void draw(Graphics2D g)
     {
         int temp = 0;
+
         for(int i = 0; i < GameWindow.WINDOW_WIDTH; i += FINAL_TILE_SIZE)
         {
             for(int j = 0; j < GameWindow.WINDOW_HEIGHT; j += FINAL_TILE_SIZE)
@@ -58,7 +55,7 @@ public class Map
 
     private void loadFloorTiles() throws FileNotFoundException
     {
-        String floorFolder = "assets/map/floor";
+        String floorFolder = "assets/map/floor/normalfloor/";
 
         this.normalFloorTiles.loadFilesFromFolder(floorFolder);
     }

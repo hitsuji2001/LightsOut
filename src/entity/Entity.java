@@ -1,14 +1,8 @@
 package entity;
 
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 
-import java.io.IOException;
-
-import java.util.ArrayList;
-
-import game.Game;
-import assetloader.SpriteLoader;
+import assetloader.animation.AnimationHandler;
 
 public class Entity
 {
@@ -16,18 +10,14 @@ public class Entity
     public int y;
     public int speed;
 
-    public ArrayList <String> spriteFileNameUp = new ArrayList<>();
-    public ArrayList <String> spriteFileNameDown = new ArrayList<>();
-    public ArrayList <String> spriteFileNameLeft = new ArrayList<>();
-    public ArrayList <String> spriteFileNameRight = new ArrayList<>();
+    private int currentDirection = 0;
 
-    public ArrayList <BufferedImage> spriteUp = new ArrayList<>();
-    public ArrayList <BufferedImage> spriteDown = new ArrayList<>();
-    public ArrayList <BufferedImage> spriteLeft = new ArrayList<>();
-    public ArrayList <BufferedImage> spriteRight = new ArrayList<>();
+    public boolean isMoving = false;
+    public float moveTimer = 0.0f;
 
-    public SpriteLoader spriteLoader;
-    public FacingDirection facingDirection = FacingDirection.LEFT;
+    public FacingDirection facingDirection = FacingDirection.RIGHT;
+
+    public AnimationHandler animationHandler = new AnimationHandler(this);
 
     public enum FacingDirection
     {
@@ -49,20 +39,25 @@ public class Entity
     {
     }
 
-    public void loadSpriteFile(ArrayList<String> up, ArrayList<String> down, ArrayList<String> left, ArrayList<String> right)
+    public void move()
     {
-        this.spriteFileNameUp = up;
-        this.spriteFileNameDown = down;
-        this.spriteFileNameLeft = left;
-        this.spriteFileNameRight = right;
-    }
-
-    public void loadSprite() throws IOException
-    {
-        SpriteLoader.loadFiles(this.spriteFileNameUp, this.spriteUp);
-        SpriteLoader.loadFiles(this.spriteFileNameDown, this.spriteDown);
-        SpriteLoader.loadFiles(this.spriteFileNameLeft, this.spriteLeft);
-        SpriteLoader.loadFiles(this.spriteFileNameRight, this.spriteRight);
+        switch(this.currentDirection)
+        {
+            case 0:
+                this.moveRight();
+                this.facingDirection = FacingDirection.RIGHT;
+                break;
+            case 1:
+                this.moveDown();
+                break;
+            case 2:
+                this.moveLeft();
+                this.facingDirection = FacingDirection.LEFT;
+                break;
+            case 3:
+                this.moveUp();
+                break;
+        }
     }
 
     public void debugDraw(Graphics2D g)
@@ -72,26 +67,57 @@ public class Entity
 
     public void draw(Graphics2D g)
     {
+        this.animationHandler.play(g);
+    }
+
+    public void update()
+    {
+        this.updateDirection();
+        this.move();
+        this.animationHandler.update();
+    }
+
+    private void updateDirection()
+    {
+        if(this.moveTimer >= 6.9f)
+        {
+            this.moveTimer = 0;
+            this.currentDirection++;
+            if(this.currentDirection > 3) this.currentDirection = 0;
+        }
+        else
+        {
+            this.moveTimer += 0.1f;
+        }
     }
 
     public void moveUp()
     {
-        this.y -= this.speed * Game.deltaTime;
+        this.y -= this.speed;
+        this.isMoving = true;
     }
 
     public void moveDown()
     {
-        this.y += this.speed * Game.deltaTime;
+        this.y += this.speed;
+        this.isMoving = true;
     }
 
     public void moveLeft()
     {
-        this.x -= this.speed * Game.deltaTime;
+        this.x -= this.speed;
+        this.isMoving = true;
     }
 
     public void moveRight()
     {
-        this.x += this.speed * Game.deltaTime;
+        this.x += this.speed;
+        this.isMoving = true;
+    }
+
+    public boolean isMoving()
+    {
+        return this.isMoving;
     }
 
     public int getX()
@@ -107,6 +133,11 @@ public class Entity
     public int getSpeed()
     {
         return this.speed;
+    }
+
+    public FacingDirection getFacingDirection()
+    {
+        return this.facingDirection;
     }
 
     public void setX(int x)

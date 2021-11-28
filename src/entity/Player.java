@@ -1,20 +1,16 @@
 package entity;
 
+import game.Game;
 import game.KeyHandler;
 
 import java.io.IOException;
 
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 
 public class Player extends Entity
 {
+    // Keyhandler for player
     private KeyHandler keyHandler;
-
-    public static final int ANIMATION_FRAMES = 4;
-
-    public int currentSprite = 0;
-    public int animationFrameCounter = 0;
 
     public Player(KeyHandler keyHandler)
     {
@@ -37,33 +33,10 @@ public class Player extends Entity
         this.y = 100;
         this.speed = 3;
 
-        // Load Sprite
-        this.setUpSprite();
-        this.loadSprite();
+        this.animationHandler.setUpAnimation("assets/player/run/", "assets/player/idle/");
     }
 
-    private void setUpSprite()
-    {
-        for(int i = 0; i < ANIMATION_FRAMES; i++)
-        {
-            String temp = "assets/player/run/right/" + "knight_f_run_anim_f" + i + ".png";
-            this.spriteFileNameRight.add(temp);
-        }
-
-        for(int i = 0; i < ANIMATION_FRAMES; i++)
-        {
-            String temp = "assets/player/run/left/" + "knight_f_run_anim_f" + i + ".png";
-            this.spriteFileNameLeft.add(temp);
-        }
-    }
-
-    public void update()
-    {
-        this.move();
-        //if(this.keyHandler.isKeyPressed())
-            this.updateSprite();
-    }
-
+    @Override
     public void move()
     {
         if(this.keyHandler.isUpPressed)
@@ -86,33 +59,39 @@ public class Player extends Entity
         }
     }
 
-    private void updateSprite()
+    @Override
+    public void moveUp()
     {
-        animationFrameCounter++;
+        this.y -= this.speed * Game.deltaTime;
+    }
 
-        if(animationFrameCounter > 10)
-        {
-            this.currentSprite++;
-            if(currentSprite >= ANIMATION_FRAMES) currentSprite = 0;
-            animationFrameCounter = 0;
-        }
+    @Override
+    public void moveDown()
+    {
+        this.y += this.speed * Game.deltaTime;
+    }
+
+    @Override
+    public void moveLeft()
+    {
+        this.x -= this.speed * Game.deltaTime;
+    }
+
+    @Override
+    public void moveRight()
+    {
+        this.x += this.speed * Game.deltaTime;
+    }
+
+    @Override
+    public boolean isMoving()
+    {
+        return this.keyHandler.isKeyPressed();
     }
 
     @Override
     public void draw(Graphics2D g)
     {
-        BufferedImage sprite = null;
-
-        switch(this.facingDirection)
-        {
-            case LEFT:
-                sprite = this.spriteLeft.get(currentSprite);
-                break;
-            case RIGHT:
-                sprite = this.spriteRight.get(currentSprite);
-                break;
-        }
-
-        g.drawImage(sprite, this.x, this.y, FINAL_SPRITE_SIZE, FINAL_SPRITE_SIZE, null);
+        this.animationHandler.play(g);
     }
 }
