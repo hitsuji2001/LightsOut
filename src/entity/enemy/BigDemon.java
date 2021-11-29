@@ -20,10 +20,10 @@ public class BigDemon extends Entity
 
     private void initialize() throws IOException
     {
-        this.x = 200;
-        this.y = 200;
-        this.speed = 2;
+        this.setWorldXPostition(690);
+        this.setWorldYPosition(690);
+        this.setSpeed(2);
 
-        this.animationHandler.setUpAnimation("assets/enemy/bigDemon/run/", "assets/enemy/bigDemon/idle/");
+        this.getAnimationHandler().setUpAnimation("assets/enemy/bigDemon/run/", "assets/enemy/bigDemon/idle/");
     }
 }

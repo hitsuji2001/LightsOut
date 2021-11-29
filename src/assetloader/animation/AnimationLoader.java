@@ -9,8 +9,8 @@ import java.io.IOException;
 
 public class AnimationLoader
 {
-    public SpriteLoader spriteloader = new SpriteLoader();
-    public Entity entity;
+    private SpriteLoader spriteloader = new SpriteLoader();
+    private Entity entity;
 
     public static final int ANIMATION_FRAMES = 4;
     public int currentSprite = 0;
@@ -52,5 +52,20 @@ public class AnimationLoader
     public SpriteLoader getSpriteLoader()
     {
         return this.spriteloader;
+    }
+
+    public Entity getEntity()
+    {
+        return this.entity;
+    }
+
+    public void setSpriteLoader(SpriteLoader s)
+    {
+        this.spriteloader = s;
+    }
+
+    public void setEntity(Entity e)
+    {
+        this.entity = e;
     }
 }

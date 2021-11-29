@@ -19,7 +19,7 @@ public class IdleAnimationLoader extends AnimationLoader
     
     public IdleAnimationLoader(Entity e)
     {
-        this.entity = e;
+        this.setEntity(e);
     }
 
     @Override
@@ -34,12 +34,12 @@ public class IdleAnimationLoader extends AnimationLoader
         for(File f : leftFiles.listFiles()) left.add(f.getPath());
         for(File f : rightFiles.listFiles()) right.add(f.getPath());
 
-        this.spriteloader = new SpriteLoader();
+        this.setSpriteLoader(new SpriteLoader());
 
-        this.spriteloader.setIdleFileLeft(left);
-        this.spriteloader.setIdleFileRight(right);
+        this.getSpriteLoader().setIdleFileLeft(left);
+        this.getSpriteLoader().setIdleFileRight(right);
 
-        this.spriteloader.loadIdleImages();
+        this.getSpriteLoader().loadIdleImages();
     }
 
     @Override
@@ -47,7 +47,7 @@ public class IdleAnimationLoader extends AnimationLoader
     {
         BufferedImage sprite = null;
 
-        switch(this.entity.getFacingDirection())
+        switch(this.getEntity().getFacingDirection())
         {
             case LEFT:
                 sprite = this.getSpriteLoader().idleSpritesLeft.get(this.currentSprite);
@@ -57,6 +57,6 @@ public class IdleAnimationLoader extends AnimationLoader
                 break;
         }
 
-        g.drawImage(sprite, this.entity.getX(), this.entity.getY(), Entity.FINAL_SPRITE_SIZE, Entity.FINAL_SPRITE_SIZE, null);
+        g.drawImage(sprite, this.getEntity().getX(), this.getEntity().getY(), Entity.FINAL_SPRITE_SIZE, Entity.FINAL_SPRITE_SIZE, null);
     }
 }

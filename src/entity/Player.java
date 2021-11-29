@@ -1,6 +1,7 @@
 package entity;
 
 import game.Game;
+import window.GameWindow;
 import game.KeyHandler;
 
 import java.io.IOException;
@@ -29,11 +30,15 @@ public class Player extends Entity
     private void initializePlayer() throws IOException
     {
         // Basic Attributes
-        this.x = 100;
-        this.y = 100;
-        this.speed = 3;
+        this.setWorldXPostition(960);
+        this.setWorldYPosition(960);
 
-        this.animationHandler.setUpAnimation("assets/player/run/", "assets/player/idle/");
+        this.setX((int)(GameWindow.WINDOW_WIDTH / 2 - Entity.FINAL_SPRITE_SIZE / 2));
+        this.setY((int)(GameWindow.WINDOW_HEIGHT / 2 - Entity.FINAL_SPRITE_SIZE / 2));
+
+        this.setSpeed(3);
+
+        this.getAnimationHandler().setUpAnimation("assets/player/run/", "assets/player/idle/");
     }
 
     @Override
@@ -49,12 +54,12 @@ public class Player extends Entity
         }
         else if(this.keyHandler.isLeftPressed)
         {
-            this.facingDirection = FacingDirection.LEFT;
+            this.setFacingDirection(FacingDirection.LEFT);
             this.moveLeft();
         }
         else if(this.keyHandler.isRightPressed)
         {
-            this.facingDirection = FacingDirection.RIGHT;
+            this.setFacingDirection(FacingDirection.RIGHT);
             this.moveRight();
         }
     }
@@ -62,25 +67,25 @@ public class Player extends Entity
     @Override
     public void moveUp()
     {
-        this.y -= this.speed * Game.deltaTime;
+        this.setWorldYPosition((int)(this.getWorldYPosition() - this.getSpeed() * Game.deltaTime));
     }
 
     @Override
     public void moveDown()
     {
-        this.y += this.speed * Game.deltaTime;
+        this.setWorldYPosition((int)(this.getWorldYPosition() + this.getSpeed() * Game.deltaTime));
     }
 
     @Override
     public void moveLeft()
     {
-        this.x -= this.speed * Game.deltaTime;
+        this.setWorldXPostition((int)(this.getWorldXPosition() - this.getSpeed() * Game.deltaTime));
     }
 
     @Override
     public void moveRight()
     {
-        this.x += this.speed * Game.deltaTime;
+        this.setWorldXPostition((int)(this.getWorldXPosition() + this.getSpeed() * Game.deltaTime));
     }
 
     @Override
@@ -92,6 +97,6 @@ public class Player extends Entity
     @Override
     public void draw(Graphics2D g)
     {
-        this.animationHandler.play(g);
+        this.getAnimationHandler().play(g);
     }
 }

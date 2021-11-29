@@ -19,7 +19,7 @@ public class MovingAnimationLoader extends AnimationLoader
 
     public MovingAnimationLoader(Entity e)
     {
-        this.entity = e;
+        this.setEntity(e);
     }
 
     @Override
@@ -34,8 +34,8 @@ public class MovingAnimationLoader extends AnimationLoader
         for(File f : leftFiles.listFiles()) left.add(f.getPath());
         for(File f : rightFiles.listFiles()) right.add(f.getPath());
 
-        this.spriteloader = new SpriteLoader(left, right);
-        this.spriteloader.loadImages();
+        this.setSpriteLoader(new SpriteLoader(left, right));
+        this.getSpriteLoader().loadImages();
     }
 
     @Override
@@ -43,7 +43,7 @@ public class MovingAnimationLoader extends AnimationLoader
     {
         BufferedImage sprite = null;
 
-        switch(this.entity.getFacingDirection())
+        switch(this.getEntity().getFacingDirection())
         {
             case LEFT:
                 sprite = this.getSpriteLoader().leftSprites.get(this.currentSprite);
@@ -53,6 +53,6 @@ public class MovingAnimationLoader extends AnimationLoader
                 break;
         }
 
-        g.drawImage(sprite, this.entity.getX(), this.entity.getY(), Entity.FINAL_SPRITE_SIZE, Entity.FINAL_SPRITE_SIZE, null);
+        g.drawImage(sprite, this.getEntity().getX(), this.getEntity().getY(), Entity.FINAL_SPRITE_SIZE, Entity.FINAL_SPRITE_SIZE, null);
     }
 }

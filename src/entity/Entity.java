@@ -6,18 +6,22 @@ import assetloader.animation.AnimationHandler;
 
 public class Entity
 {
-    public int x;
-    public int y;
-    public int speed;
+    private int x;
+    private int y;
+
+    private int worldXPosition;
+    private int worldYPosition;
+
+    private int speed;
 
     private int currentDirection = 0;
 
     public boolean isMoving = false;
     public float moveTimer = 0.0f;
 
-    public FacingDirection facingDirection = FacingDirection.RIGHT;
+    private FacingDirection facingDirection = FacingDirection.RIGHT;
 
-    public AnimationHandler animationHandler = new AnimationHandler(this);
+    private AnimationHandler animationHandler = new AnimationHandler(this);
 
     public enum FacingDirection
     {
@@ -93,25 +97,25 @@ public class Entity
 
     public void moveUp()
     {
-        this.y -= this.speed;
+        this.worldYPosition -= this.speed;
         this.isMoving = true;
     }
 
     public void moveDown()
     {
-        this.y += this.speed;
+        this.worldYPosition += this.speed;
         this.isMoving = true;
     }
 
     public void moveLeft()
     {
-        this.x -= this.speed;
+        this.worldXPosition -= this.speed;
         this.isMoving = true;
     }
 
     public void moveRight()
     {
-        this.x += this.speed;
+        this.worldXPosition += this.speed;
         this.isMoving = true;
     }
 
@@ -125,6 +129,16 @@ public class Entity
         return this.x;
     }
 
+    public int getWorldXPosition()
+    {
+        return this.worldXPosition;
+    }
+
+    public int getWorldYPosition()
+    {
+        return this.worldYPosition;
+    }
+
     public int getY()
     {
         return this.y;
@@ -135,9 +149,29 @@ public class Entity
         return this.speed;
     }
 
+    public AnimationHandler getAnimationHandler()
+    {
+        return this.animationHandler;
+    }
+
     public FacingDirection getFacingDirection()
     {
         return this.facingDirection;
+    }
+
+    public void setWorldXPostition(int x)
+    {
+        this.worldXPosition = x;
+    }
+
+    public void setFacingDirection(FacingDirection dir)
+    {
+        this.facingDirection = dir;
+    }
+
+    public void setWorldYPosition(int y)
+    {
+        this.worldYPosition = y;
     }
 
     public void setX(int x)

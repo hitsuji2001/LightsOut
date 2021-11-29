@@ -24,7 +24,7 @@ public class Game extends JPanel implements Runnable
     private static final int FPS = 60;
 
     // Game elements
-    private Map map = new Map();
+    private Map map;
     private Player player = new Player(this.keyHandler);
     private BigDemon bigDemon = new BigDemon();
 
@@ -36,6 +36,7 @@ public class Game extends JPanel implements Runnable
 
         // Add components
         this.addKeyListener(this.keyHandler);
+        this.map = new Map(this.player);
 
         // Set up the screen
         this.setBackground(Color.BLACK);
