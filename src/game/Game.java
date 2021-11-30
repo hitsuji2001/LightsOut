@@ -9,8 +9,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import mapgen.Map;
+
 import entity.Player;
 import entity.enemy.BigDemon;
+import entity.enemy.BigZombie;
 
 public class Game extends JPanel implements Runnable
 {
@@ -25,8 +27,10 @@ public class Game extends JPanel implements Runnable
 
     // Game elements
     private Map map;
+
     private Player player = new Player(this.keyHandler);
     private BigDemon bigDemon = new BigDemon();
+    private BigZombie bigZombie = new BigZombie();
 
     public static double deltaTime;
 
@@ -48,6 +52,7 @@ public class Game extends JPanel implements Runnable
     {
         this.player.update();
         this.bigDemon.update();
+        this.bigZombie.update();
     }
 
     // Redraw everything
@@ -79,6 +84,7 @@ public class Game extends JPanel implements Runnable
         this.map.draw(g2D);
         this.player.draw(g2D);
         this.bigDemon.draw(g2D);
+        this.bigZombie.draw(g2D);
 
         g.dispose();
     }

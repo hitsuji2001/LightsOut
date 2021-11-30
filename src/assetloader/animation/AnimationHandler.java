@@ -26,6 +26,16 @@ public class AnimationHandler
         this.idleAnimationLoader.loadFilesFromFolder(idleAnimationFolder);
     }
 
+    public void playIdleAnimation(Graphics2D g)
+    {
+        this.idleAnimationLoader.draw(g);
+    }
+
+    public void playMovingAnimation(Graphics2D g)
+    {
+        this.movingAnimationLoader.draw(g);
+    }
+
     public void play(Graphics2D g)
     {
         if(this.entity.isMoving()) this.movingAnimationLoader.draw(g);

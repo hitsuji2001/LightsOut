@@ -20,8 +20,12 @@ public class BigDemon extends Entity
 
     private void initialize() throws IOException
     {
-        this.setWorldXPostition(690);
+        this.setWorldXPosition(690);
         this.setWorldYPosition(690);
+
+        this.setX(300);
+        this.setY(300);
+
         this.setSpeed(2);
 
         this.getAnimationHandler().setUpAnimation("assets/enemy/bigDemon/run/", "assets/enemy/bigDemon/idle/");

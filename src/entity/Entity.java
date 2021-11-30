@@ -81,7 +81,7 @@ public class Entity
         this.animationHandler.update();
     }
 
-    private void updateDirection()
+    public void updateDirection()
     {
         if(this.moveTimer >= 6.9f)
         {
@@ -97,25 +97,25 @@ public class Entity
 
     public void moveUp()
     {
-        this.worldYPosition -= this.speed;
+        this.y -= this.speed;
         this.isMoving = true;
     }
 
     public void moveDown()
     {
-        this.worldYPosition += this.speed;
+        this.y += this.speed;
         this.isMoving = true;
     }
 
     public void moveLeft()
     {
-        this.worldXPosition -= this.speed;
+        this.x -= this.speed;
         this.isMoving = true;
     }
 
     public void moveRight()
     {
-        this.worldXPosition += this.speed;
+        this.x += this.speed;
         this.isMoving = true;
     }
 
@@ -159,7 +159,7 @@ public class Entity
         return this.facingDirection;
     }
 
-    public void setWorldXPostition(int x)
+    public void setWorldXPosition(int x)
     {
         this.worldXPosition = x;
     }

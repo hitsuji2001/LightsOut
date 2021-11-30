@@ -30,7 +30,7 @@ public class Player extends Entity
     private void initializePlayer() throws IOException
     {
         // Basic Attributes
-        this.setWorldXPostition(960);
+        this.setWorldXPosition(960);
         this.setWorldYPosition(960);
 
         this.setX((int)(GameWindow.WINDOW_WIDTH / 2 - Entity.FINAL_SPRITE_SIZE / 2));
@@ -79,13 +79,13 @@ public class Player extends Entity
     @Override
     public void moveLeft()
     {
-        this.setWorldXPostition((int)(this.getWorldXPosition() - this.getSpeed() * Game.deltaTime));
+        this.setWorldXPosition((int)(this.getWorldXPosition() - this.getSpeed() * Game.deltaTime));
     }
 
     @Override
     public void moveRight()
     {
-        this.setWorldXPostition((int)(this.getWorldXPosition() + this.getSpeed() * Game.deltaTime));
+        this.setWorldXPosition((int)(this.getWorldXPosition() + this.getSpeed() * Game.deltaTime));
     }
 
     @Override
