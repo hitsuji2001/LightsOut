@@ -4,8 +4,6 @@ import assetloader.map.MapLoader;
 
 import java.awt.Graphics2D;
 
-import java.io.IOException;
-
 import entity.Player;
 
 public class Map 
@@ -14,19 +12,7 @@ public class Map
 
     public Map(Player p)
     {
-        try
-        {
-            String floor = "assets/map/floor/normalfloor/";
-            String wall = "assets/map/wall/nonanimated/";
-            String spike = "assets/map/floor/spike/";
-            this.mapLoader.initialize(floor, wall, spike);
-
-            this.mapLoader.setPlayer(p);
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-        }
+        this.mapLoader.setPlayer(p);
     }
 
     // Draw the map on the screen

@@ -14,12 +14,11 @@ public class LoadMapFromFile
 {
     private File mapFile;
     private Scanner scanner;
-    private Random random = new Random();
 
     public static int WORLD_MAP_SIZE_ROWS = 100;
     public static int WORLD_MAP_SIZE_COLUMNS = 100;
 
-    private int map[][] = new int[WORLD_MAP_SIZE_ROWS][WORLD_MAP_SIZE_COLUMNS];
+    private char map[][] = new char[WORLD_MAP_SIZE_ROWS][WORLD_MAP_SIZE_COLUMNS];
 
     private FileWriter writer;
     private PrintWriter printer;
@@ -50,7 +49,7 @@ public class LoadMapFromFile
         {
             for(int j = 0; j < WORLD_MAP_SIZE_COLUMNS; j++)
             {
-                this.map[i][j] = this.scanner.nextInt();
+                this.map[i][j] = this.scanner.next().charAt(0);
             }
         }
     }
@@ -60,28 +59,19 @@ public class LoadMapFromFile
         this.writer = new FileWriter(this.mapFile);
         this.printer = new PrintWriter(this.writer);
 
-
         for(int i = 0; i < WORLD_MAP_SIZE_ROWS; i++)
         {
             for(int j = 0; j < WORLD_MAP_SIZE_COLUMNS; j++)
             {
-                int temp = this.random.nextInt(4);
-                //left
-                if(j == 0) printer.print("37 ");
-                //top
-                else if(i == 0) printer.print("37 ");
-                //bottom
-                else if(i == WORLD_MAP_SIZE_ROWS - 1) printer.print("37 ");
-                //right
-                else if(j == WORLD_MAP_SIZE_COLUMNS - 1) printer.print("37 ");
-                else printer.print(temp + " ");
+                if(j == 0 || i == 0 || i == WORLD_MAP_SIZE_ROWS || j == WORLD_MAP_SIZE_COLUMNS) printer.print("W ");
+                else printer.print("F ");
             }
             printer.println();
         }
         printer.close();
     }
 
-    public int[][] getMap()
+    public char[][] getMap()
     {
         return this.map;
     }
